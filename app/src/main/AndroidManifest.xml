@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!-- 장치에 카메라가 있는지 확인한다. any -> 카메라 정면, 후면일수도 있으니 Any!   -->
+    <!-- 장치에 카메라가 있는지 확인한다. any -> 카메라 정면, 후면일수도 있으니 Any! -->
+    <!-- any 가 빠지면 후면 카메라는 제외된다!! -->
     <uses-feature android:name="android.hardware.camera.any" />
 
     <application
