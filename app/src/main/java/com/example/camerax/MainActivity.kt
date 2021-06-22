@@ -39,9 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btn_camera.setOnClickListener(this)
-
-        // Set up the listener for take photo button
-        camera_capture_button.setOnClickListener { takePhoto() }
+        camera_capture_button.setOnClickListener(this)
 
         outputDirectory = getOutputDirectory()
 
@@ -65,6 +63,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     // 카메라 Permission 이 없을 경우 사용자에게 요청을 한다.
                     requestPermission()
                 }
+            }
+            R.id.camera_capture_button -> {
+                // Set up the listener for take photo button
+                takePhoto()
             }
         }
     }
@@ -116,7 +118,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun takePhoto() {
-
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
 
@@ -160,7 +161,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         // fun ListenableFuture.addListener(runnable: Runnable, executor: Executor)
         // MainThread 에서 작동해야 하기 때문에 끝에 ContextCompat.getMainExecutor(this) 붙여준다.!!
-        cameraProviderFuture.addListener(Runnable {
+        cameraProviderFuture.addListener({
 
             // 카메라의 수명주기 LifecycleOwner 애플리케이션의 프로세스 내에서 바인딩하는데 사용한다.
             // ProcessCameraProvider -> 생명주기에 Binding 하는 객체 가져오기
@@ -178,17 +179,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
              * 만약 null 값으로 Provider를 제거하면 카메라는 Preview 객체에서 이미지를 만드는 것을 멈춘다.
              */
 
+            // Image Capture
+            imageCapture = ImageCapture.Builder().build()
+
             // Select back camera as a default
             // 후면 카메라로 Default 설정
             // DEFAULT_FRONT_CAMERA -> 정면 카메라, DEFAULT_BACK_CAMERA -> 후면 카메라
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             try {
+                // 생명주기에 binding 시키기
                 // Unbind use cases before rebinding
-                cameraProvider.unbindAll()
                 // Bind use cases to camera
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview
-                )
+                cameraProvider.unbindAll()
+                // Preview Binding!!
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
