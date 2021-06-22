@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val imageCapture = imageCapture ?: return
 
         // Create time-stamped output file to hold the image
+        // Image 파일명 만들기
         val photoFile = File(
             outputDirectory,
             SimpleDateFormat(
@@ -139,10 +140,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
+                    // 이미지 캡처 오류
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    // 이미지 캡처 성공
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
