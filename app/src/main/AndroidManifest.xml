@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.camerax">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- 장치에 카메라가 있는지 확인한다. any -> 카메라 정면, 후면일수도 있으니 Any!   -->
+    <uses-feature android:name="android.hardware.camera.any" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
