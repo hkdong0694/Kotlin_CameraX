@@ -1,9 +1,12 @@
 package com.example.camerax
 
 import android.Manifest
+import android.content.pm.ConfigurationInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.util.Size
 import android.view.View
@@ -36,11 +39,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setContentView(R.layout.activity_main)
+        } else {
+            setContentView(R.layout.activity_landscape)
+        }
         btn_camera.setOnClickListener(this)
         camera_capture_button.setOnClickListener(this)
-
         outputDirectory = getOutputDirectory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
     }
 
     override fun onClick(v: View?) {
