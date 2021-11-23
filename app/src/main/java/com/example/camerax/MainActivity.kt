@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             setContentView(R.layout.activity_main)
         } else {
+
             setContentView(R.layout.activity_landscape)
         }
         btn_camera.setOnClickListener(this)
