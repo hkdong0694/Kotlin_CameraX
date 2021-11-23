@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             setContentView(R.layout.activity_main)
